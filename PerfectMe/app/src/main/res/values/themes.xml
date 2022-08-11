@@ -13,4 +13,21 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="BottomSheetButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">16dp</item>
+        <item name="android:background">?selectableItemBackground</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:padding">16dp</item>
+        <item name="drawableTint">@color/purple_200</item>
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/title_color</item>
+    </style>
+
+    <style name="RoundSmall" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">24dp</item>
+    </style>
 </resources>

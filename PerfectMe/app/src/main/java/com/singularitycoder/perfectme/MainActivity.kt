@@ -1,7 +1,7 @@
 package com.singularitycoder.perfectme
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.singularitycoder.perfectme.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,12 +21,23 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.setupUI()
+        setupUserActionListeners()
     }
 
     private fun ActivityMainBinding.setupUI() {
         rvContacts.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = routinesAdapter
+        }
+    }
+
+    private fun setupUserActionListeners() {
+        routinesAdapter.setStepsClickListener { it: Routine ->
+            val routineStepsOptionsList = listOf(
+                BottomSheetMenu(1, "Update skill", android.R.drawable.ic_delete),
+                BottomSheetMenu(2, "Delete skill", android.R.drawable.ic_delete),
+            )
+            MenuBottomSheetFragment.newInstance(routineStepsOptionsList).show(supportFragmentManager, TAG_MENU_MODAL_BOTTOM_SHEET)
         }
     }
 }
