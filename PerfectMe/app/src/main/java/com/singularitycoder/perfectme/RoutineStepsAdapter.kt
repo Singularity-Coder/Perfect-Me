@@ -36,7 +36,7 @@ class RoutineStepsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             itemBinding.apply {
                 tvStepName.text = routineStep.stepName
                 tvStepDuration.text = routineStep.stepDuration
-                tvStepNumber.text = adapterPosition.toString()
+                tvStepNumber.text = routineStep.stepNumber.toString()
             }
         }
     }

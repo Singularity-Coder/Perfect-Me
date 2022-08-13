@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.singularitycoder.perfectme.databinding.FragmentAddRoutineBinding
+import java.util.*
 
 class AddRoutineFragment : Fragment() {
 
@@ -51,10 +52,11 @@ class AddRoutineFragment : Fragment() {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder,
             ): Boolean {
+                // FIXME drag is not smooth and gets attached to its immediate next position
                 val fromPosition = viewHolder.adapterPosition
                 val toPosition = target.adapterPosition
-                val fromPositionItem = routineStepsList[fromPosition]
-                routineStepsList[fromPosition] = routineStepsList[toPosition]
+                val fromPositionItem = routineStepsList[fromPosition].apply { stepNumber = toPosition + 1 }
+                routineStepsList[fromPosition] = routineStepsList[toPosition].apply { stepNumber = fromPosition + 1 }
                 routineStepsList[toPosition] = fromPositionItem
                 routineStepsAdapter.notifyItemMoved(fromPosition, toPosition)
                 return false
@@ -70,40 +72,25 @@ class AddRoutineFragment : Fragment() {
 
     private fun FragmentAddRoutineBinding.setupUserActionListeners() {
         ibAddStep.setOnClickListener {
-            showTimePicker()
+            routineStepsAdapter.routineStepsList = routineStepsList.apply {
+                add(RoutineStep(
+                    stepNumber = routineStepsList.size + 1,
+                    stepName = binding.etAddRoutineStep.text.toString(),
+                    stepDuration = "6 mins, 50 sec"
+                ))
+            }
+            routineStepsAdapter.notifyItemInserted(if (routineStepsList.isEmpty()) 0 else routineStepsList.lastIndex)
+            binding.etAddRoutineStep.setText("")
         }
         routineStepsAdapter.setItemClickListener { it: RoutineStep ->
         }
-    }
-
-    private fun showTimePicker() {
-        val timePicker = MaterialTimePicker.Builder()
-            .setTitleText("Set reminder time")
-            .setTimeFormat(TimeFormat.CLOCK_12H)
-            .setHour(12)
-            .setMinute(10)
-            .build()
-        timePicker.show(parentFragmentManager, "tag_time_picker")
-        timePicker.addOnPositiveButtonClickListener {
-            val selectedTime = convertTime24HrTo12Hr(date24Hr = "${timePicker.hour}:${timePicker.minute}")
-            routineStepsList.add(RoutineStep(
-                stepNumber = if (routineStepsList.isEmpty()) 0 else routineStepsList.lastIndex + 1,
-                stepName = binding.etAddRoutineStep.text.toString(),
-                stepDuration = ""
-            ))
-            routineStepsAdapter.notifyItemInserted(if (routineStepsList.isEmpty()) 0 else routineStepsList.lastIndex)
-            binding.etAddRoutineStep.apply {
-                setText("")
-                clearFocus()
-            }
-            println("""
-                        Hours: ${timePicker.hour}
-                        Minutes: ${timePicker.minute}
-                        InputMode: ${timePicker.inputMode}
-                        reminderTime: $selectedTime
-                    """.trimIndent())
+        ibBack.setOnClickListener {
+            activity?.onBackPressed()
         }
-        timePicker.addOnNegativeButtonClickListener {
+        btnDone.setOnClickListener {
+            activity?.onBackPressed()
         }
+        // TODO IME check close keyboard
+        // TODO on scroll down close keyboard
     }
 }

@@ -23,6 +23,7 @@
             android:layout_height="40dp"
             android:gravity="center"
             android:text="1"
+            android:textStyle="bold"
             android:textColor="@color/purple_200"
             app:tint="@color/purple_500" />
     </com.google.android.material.card.MaterialCardView>
@@ -49,7 +50,7 @@
 
             <TextView
                 android:id="@+id/tv_step_name"
-                style="@style/TextAppearance.AppCompat.Body2"
+                style="@style/TextAppearance.AppCompat.Body1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
