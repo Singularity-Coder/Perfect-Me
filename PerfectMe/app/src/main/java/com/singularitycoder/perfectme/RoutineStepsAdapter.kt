@@ -1,5 +1,6 @@
 package com.singularitycoder.perfectme
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +10,6 @@ class RoutineStepsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var routineStepsList = emptyList<RoutineStep>()
     private var itemClickListener: (routineStep: RoutineStep) -> Unit = {}
-    private var stepsClickListener: (routineStep: RoutineStep) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val itemBinding = ListItemRoutineStepBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -28,16 +28,15 @@ class RoutineStepsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         itemClickListener = listener
     }
 
-    fun setStepsClickListener(listener: (routineStep: RoutineStep) -> Unit) {
-        stepsClickListener = listener
-    }
-
     inner class RoutineStepViewHolder(
         private val itemBinding: ListItemRoutineStepBinding,
     ) : RecyclerView.ViewHolder(itemBinding.root) {
+        @SuppressLint("SetTextI18n")
         fun setData(routineStep: RoutineStep) {
             itemBinding.apply {
-
+                tvStepName.text = routineStep.stepName
+                tvStepDuration.text = routineStep.stepDuration
+                tvStepNumber.text = adapterPosition.toString()
             }
         }
     }

@@ -11,9 +11,12 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
@@ -25,6 +28,7 @@ const val TABLE_ROUTINE = "table_routine"
 const val DB_ROUTINE = "db_routine"
 
 const val TAG_MENU_MODAL_BOTTOM_SHEET = "TAG_MENU_MODAL_BOTTOM_SHEET"
+const val TAG_ADD_ROUTINE_FRAGMENT = "TAG_ADD_ROUTINE_FRAGMENT"
 
 fun View.showSnackBar(
     message: String,
@@ -171,6 +175,49 @@ val View.isKeyboardVisible: Boolean
     } else {
         false
     }
+
+/** [type] format: 04-Aug-2022 17:22*/
+fun millisSinceEpoch(date: String, type: String = "dd-MMM-yyyy HH:mm"): Long {
+    return try {
+        val dateFormat = SimpleDateFormat(type, Locale.getDefault())
+        dateFormat.parse(date)?.time ?: 0
+    } catch (e: Exception) {
+        0L
+    }
+}
+
+// https://stackoverflow.com/questions/6531632/conversion-from-12-hours-time-to-24-hours-time-in-java
+fun convertTime24HrTo12Hr(date24Hr: String): String {
+    return try {
+        val dateFormat24Hr = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val dateFormat12Hr = SimpleDateFormat("hh:mm a", Locale.getDefault())
+        val parsedDate24Hr = dateFormat24Hr.parse(date24Hr) ?: Date()
+        dateFormat12Hr.format(parsedDate24Hr)
+    } catch (e: Exception) {
+        ""
+    }
+}
+
+fun Int.seconds(): Long = TimeUnit.SECONDS.toMillis(this.toLong())
+
+fun Int.minutes(): Long = TimeUnit.MINUTES.toMillis(this.toLong())
+
+fun Int.hours(): Long = TimeUnit.HOURS.toMillis(this.toLong())
+
+fun AppCompatActivity.showScreen(
+    fragment: Fragment,
+    tag: String
+) {
+    supportFragmentManager.beginTransaction()
+        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+        .add(R.id.cl_home_container, fragment, tag)
+        .addToBackStack(null)
+        .commit()
+}
+
+fun Context.color(@ColorRes colorRes: Int) = ContextCompat.getColor(this, colorRes)
+
+fun Context.drawable(@DrawableRes drawableRes: Int): Drawable? = ContextCompat.getDrawable(this, drawableRes)
 
 enum class DateType(val value: String) {
     dd_MMM_yyyy(value = "dd MMM yyyy"),

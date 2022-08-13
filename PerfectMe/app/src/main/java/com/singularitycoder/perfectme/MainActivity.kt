@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.setupUI()
-        setupUserActionListeners()
+        binding.setupUserActionListeners()
     }
 
     private fun ActivityMainBinding.setupUI() {
@@ -31,13 +31,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupUserActionListeners() {
+    private fun ActivityMainBinding.setupUserActionListeners() {
         routinesAdapter.setStepsClickListener { it: Routine ->
             val routineStepsOptionsList = listOf(
                 BottomSheetMenu(1, "Update skill", android.R.drawable.ic_delete),
                 BottomSheetMenu(2, "Delete skill", android.R.drawable.ic_delete),
             )
             MenuBottomSheetFragment.newInstance(routineStepsOptionsList).show(supportFragmentManager, TAG_MENU_MODAL_BOTTOM_SHEET)
+        }
+        fabAddRoutine.setOnClickListener {
+            showScreen(AddRoutineFragment.newInstance(), TAG_ADD_ROUTINE_FRAGMENT)
         }
     }
 }
