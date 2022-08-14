@@ -1,17 +1,21 @@
 package com.singularitycoder.perfectme.view
 
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.singularitycoder.perfectme.databinding.FragmentAddRoutineBinding
 import com.singularitycoder.perfectme.helpers.AddPeriodBottomSheetFragment
 import com.singularitycoder.perfectme.helpers.TAG_ADD_PERIOD_MODAL_BOTTOM_SHEET
+import com.singularitycoder.perfectme.helpers.dpToPx
+import com.singularitycoder.perfectme.helpers.showSnackBar
 import com.singularitycoder.perfectme.model.Routine
 import com.singularitycoder.perfectme.model.RoutineStep
 import com.singularitycoder.perfectme.viewmodel.SharedViewModel
@@ -27,7 +31,7 @@ class AddRoutineFragment : Fragment() {
 
     private val routineStepsAdapter = RoutineStepsAdapter()
     private val routineStepsList = mutableListOf<RoutineStep>()
-    private val sharedViewModel: SharedViewModel by viewModels()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentAddRoutineBinding.inflate(inflater, container, false)
@@ -36,22 +40,22 @@ class AddRoutineFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.observeForData()
         binding.setupUI()
         binding.setupUserActionListeners()
-        observeForData()
     }
 
-    private fun observeForData() {
+    private fun FragmentAddRoutineBinding.observeForData() {
         sharedViewModel.durationLiveData.observe(viewLifecycleOwner) { duration: String? ->
             routineStepsAdapter.routineStepsList = routineStepsList.apply {
                 add(RoutineStep(
                     stepNumber = routineStepsList.size + 1,
-                    stepName = binding.etAddRoutineStep.text.toString(),
+                    stepName = etAddRoutineStep.text.toString(),
                     stepDuration = duration ?: ""
                 ))
             }
             routineStepsAdapter.notifyItemInserted(if (routineStepsList.isEmpty()) 0 else routineStepsList.lastIndex)
-            binding.etAddRoutineStep.setText("")
+            etAddRoutineStep.setText("")
         }
     }
 
@@ -89,6 +93,14 @@ class AddRoutineFragment : Fragment() {
     }
 
     private fun FragmentAddRoutineBinding.setupUserActionListeners() {
+        etRoutineName.editText?.doAfterTextChanged { it: Editable? ->
+            if (it.isNullOrBlank()) {
+                etRoutineName.error = "This is required!"
+                etRoutineName.boxStrokeWidth = 2.dpToPx()
+            } else {
+                etRoutineName.error = null
+            }
+        }
         ibAddStep.setOnClickListener {
             if (etAddRoutineStep.text.isNullOrBlank()) return@setOnClickListener
             AddPeriodBottomSheetFragment.newInstance().show(requireActivity().supportFragmentManager, TAG_ADD_PERIOD_MODAL_BOTTOM_SHEET)
@@ -99,11 +111,20 @@ class AddRoutineFragment : Fragment() {
             activity?.onBackPressed()
         }
         btnDone.setOnClickListener {
+            if (etRoutineName.editText?.text.isNullOrBlank()) {
+                etRoutineName.error = "This is required!"
+                etRoutineName.boxStrokeWidth = 2.dpToPx()
+                return@setOnClickListener
+            }
+            if (routineStepsList.isEmpty()) {
+                binding.root.showSnackBar("Steps are required!")
+                return@setOnClickListener
+            }
             (activity as? MainActivity)?.addRoutine(
                 Routine(
                     routineName = etRoutineName.editText?.text.toString(),
                     routineDuration = "",
-                    stepsCount = routineStepsList.size
+                    stepsList = routineStepsList
                 )
             )
             activity?.onBackPressed()

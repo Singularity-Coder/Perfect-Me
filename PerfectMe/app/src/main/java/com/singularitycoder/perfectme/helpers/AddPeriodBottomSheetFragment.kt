@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.singularitycoder.perfectme.databinding.FragmentAddPeriodBottomSheetBinding
@@ -21,7 +22,7 @@ class AddPeriodBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private lateinit var binding: FragmentAddPeriodBottomSheetBinding
-    private val sharedViewModel: SharedViewModel by viewModels()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentAddPeriodBottomSheetBinding.inflate(inflater, container, false)
@@ -59,7 +60,21 @@ class AddPeriodBottomSheetFragment : BottomSheetDialogFragment() {
                 etMinutes.text.isNullOrBlank() &&
                 etSeconds.text.isNullOrBlank()
             ) return@setOnClickListener
-            sharedViewModel.durationLiveData.value = "${etHours.text}:${etMinutes.text}:${etSeconds.text}"
+
+            var finalDuration = ""
+            if (etHours.text.isNullOrBlank().not()) {
+                finalDuration += "${etHours.text} hrs"
+            }
+            if (etMinutes.text.isNullOrBlank().not()) {
+                if (finalDuration.isNotBlank()) finalDuration += ", "
+                finalDuration += "${etMinutes.text} min"
+            }
+            if (etSeconds.text.isNullOrBlank().not()) {
+                if (finalDuration.isNotBlank()) finalDuration += ", "
+                finalDuration += "${etSeconds.text} sec"
+            }
+
+            sharedViewModel.durationLiveData.value = finalDuration
             dismiss()
         }
     }

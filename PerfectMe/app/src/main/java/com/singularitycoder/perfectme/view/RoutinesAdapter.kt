@@ -40,6 +40,7 @@ class RoutinesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             itemBinding.apply {
                 tvRoutineName.text = routine.routineName
                 tvRoutineDuration.text = routine.routineDuration
+                tvStepCount.text = routine.stepsList.size.toString()
                 cardStepsCount.setOnClickListener {
                     stepsClickListener.invoke(routine)
                 }
