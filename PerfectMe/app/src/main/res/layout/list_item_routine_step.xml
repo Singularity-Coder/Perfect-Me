@@ -5,97 +5,196 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="16dp">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_step_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_step_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:cardBackgroundColor="@color/purple_50"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/card_step_parent">
+
+            <TextView
+                android:id="@+id/tv_step_number"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="@color/purple_200"
+                android:textStyle="bold"
+                app:tint="@color/purple_500" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_step_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/card_step_number"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/black_50"
+            app:strokeWidth="1dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_step_name"
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:ellipsize="end"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:maxLines="1"
+                    android:text="Routine Name"
+                    android:textColor="@color/title_color"
+                    app:layout_constraintEnd_toStartOf="@+id/ib_move"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/tv_step_duration"
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="8dp"
+                    android:ellipsize="end"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:maxLines="1"
+                    android:text="Duration: 60 Min"
+                    android:textColor="@android:color/darker_gray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/ib_move"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_step_name" />
+
+                <ImageButton
+                    android:id="@+id/ib_move"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@null"
+                    android:src="@drawable/ic_round_drag_handle_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/purple_500" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_step_number"
-        android:layout_width="wrap_content"
+        android:id="@+id/card_update_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        app:cardBackgroundColor="@color/purple_50"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/card_step_parent">
-
-        <TextView
-            android:id="@+id/tv_step_number"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:gravity="center"
-            android:text="1"
-            android:textStyle="bold"
-            android:textColor="@color/purple_200"
-            app:tint="@color/purple_500" />
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_step_parent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="0dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        app:cardCornerRadius="8dp"
+        android:visibility="gone"
+        app:cardCornerRadius="48dp"
         app:cardElevation="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/card_step_number"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/black_50"
         app:strokeWidth="1dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tv_step_name"
-                style="@style/TextAppearance.AppCompat.Body1"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_cancel_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:cardBackgroundColor="@color/purple_50"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/card_update_routine_step">
+
+                <ImageButton
+                    android:id="@+id/ib_cancel_update"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:background="@null"
+                    android:src="@drawable/ic_round_clear_24"
+                    app:tint="@color/purple_500" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_update_routine_step"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:ellipsize="end"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:maxLines="1"
-                android:text="Routine Name"
-                android:textColor="@color/title_color"
-                app:layout_constraintEnd_toStartOf="@+id/ib_move"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <TextView
-                android:id="@+id/tv_step_duration"
-                style="@style/TextAppearance.AppCompat.Body1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:ellipsize="end"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:maxLines="1"
-                android:text="Duration: 60 Min"
-                android:textColor="@android:color/darker_gray"
+                android:backgroundTint="@color/black_50"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/ib_move"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_step_name" />
+                app:layout_constraintEnd_toStartOf="@+id/card_approve_update"
+                app:layout_constraintStart_toEndOf="@+id/card_cancel_update"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageButton
-                android:id="@+id/ib_move"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="4dp"
-                android:background="@null"
-                android:src="@drawable/ic_round_drag_handle_24"
-                app:layout_constraintBottom_toBottomOf="parent"
+                <EditText
+                    android:id="@+id/et_update_routine_step"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@null"
+                    android:hint="Update Step"
+                    android:inputType="textCapSentences"
+                    android:maxLines="1"
+                    android:textColor="@color/title_color"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="16sp" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_approve_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                app:cardBackgroundColor="@color/purple_50"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/purple_500" />
+                app:layout_constraintTop_toTopOf="@+id/card_update_routine_step">
+
+                <ImageButton
+                    android:id="@+id/ib_approve_update"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:background="@null"
+                    android:src="@drawable/ic_round_check_24"
+                    app:tint="@color/purple_500" />
+            </com.google.android.material.card.MaterialCardView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

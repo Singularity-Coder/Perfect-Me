@@ -8,7 +8,7 @@ import com.singularitycoder.perfectme.databinding.ListItemRoutineBinding
 
 class RoutinesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var routinesList = emptyList<Routine>()
+    var routineList = emptyList<Routine>()
     private var itemClickListener: (routine: Routine) -> Unit = {}
     private var stepsClickListener: (routine: Routine) -> Unit = {}
 
@@ -18,10 +18,10 @@ class RoutinesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as RoutineViewHolder).setData(routinesList[position])
+        (holder as RoutineViewHolder).setData(routineList[position])
     }
 
-    override fun getItemCount(): Int = routinesList.size
+    override fun getItemCount(): Int = routineList.size
 
     override fun getItemViewType(position: Int): Int = position
 

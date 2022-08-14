@@ -104,6 +104,7 @@
             android:layout_height="wrap_content"
             android:inputType="textCapWords"
             android:maxLength="50"
+            android:paddingStart="20dp"
             android:maxLines="1"
             android:textColorHint="@android:color/darker_gray" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -139,7 +140,7 @@
                 android:id="@+id/et_add_routine_step"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginEnd="6dp"
                 android:background="@null"
                 android:enabled="true"

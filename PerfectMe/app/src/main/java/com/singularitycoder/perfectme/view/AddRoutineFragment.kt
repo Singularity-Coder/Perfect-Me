@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.singularitycoder.perfectme.model.RoutineStep
 import com.singularitycoder.perfectme.databinding.FragmentAddRoutineBinding
+import com.singularitycoder.perfectme.model.Routine
 
 class AddRoutineFragment : Fragment() {
 
@@ -69,10 +70,11 @@ class AddRoutineFragment : Fragment() {
 
     private fun FragmentAddRoutineBinding.setupUserActionListeners() {
         ibAddStep.setOnClickListener {
+            if (etAddRoutineStep.text.isNullOrBlank()) return@setOnClickListener
             routineStepsAdapter.routineStepsList = routineStepsList.apply {
                 add(RoutineStep(
                     stepNumber = routineStepsList.size + 1,
-                    stepName = binding.etAddRoutineStep.text.toString(),
+                    stepName = etAddRoutineStep.text.toString(),
                     stepDuration = "6 mins, 50 sec"
                 ))
             }
@@ -85,6 +87,13 @@ class AddRoutineFragment : Fragment() {
             activity?.onBackPressed()
         }
         btnDone.setOnClickListener {
+            (activity as? MainActivity)?.addRoutine(
+                Routine(
+                    routineName = etRoutineName.editText?.text.toString(),
+                    routineDuration = "",
+                    stepsCount = routineStepsList.size
+                )
+            )
             activity?.onBackPressed()
         }
         // TODO IME check close keyboard
