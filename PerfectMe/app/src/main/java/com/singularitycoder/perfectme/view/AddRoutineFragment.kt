@@ -5,12 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.singularitycoder.perfectme.model.RoutineStep
 import com.singularitycoder.perfectme.databinding.FragmentAddRoutineBinding
+import com.singularitycoder.perfectme.helpers.AddPeriodBottomSheetFragment
+import com.singularitycoder.perfectme.helpers.TAG_ADD_PERIOD_MODAL_BOTTOM_SHEET
 import com.singularitycoder.perfectme.model.Routine
+import com.singularitycoder.perfectme.model.RoutineStep
+import com.singularitycoder.perfectme.viewmodel.SharedViewModel
 
 class AddRoutineFragment : Fragment() {
 
@@ -23,6 +27,7 @@ class AddRoutineFragment : Fragment() {
 
     private val routineStepsAdapter = RoutineStepsAdapter()
     private val routineStepsList = mutableListOf<RoutineStep>()
+    private val sharedViewModel: SharedViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentAddRoutineBinding.inflate(inflater, container, false)
@@ -33,6 +38,21 @@ class AddRoutineFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.setupUI()
         binding.setupUserActionListeners()
+        observeForData()
+    }
+
+    private fun observeForData() {
+        sharedViewModel.durationLiveData.observe(viewLifecycleOwner) { duration: String? ->
+            routineStepsAdapter.routineStepsList = routineStepsList.apply {
+                add(RoutineStep(
+                    stepNumber = routineStepsList.size + 1,
+                    stepName = binding.etAddRoutineStep.text.toString(),
+                    stepDuration = duration ?: ""
+                ))
+            }
+            routineStepsAdapter.notifyItemInserted(if (routineStepsList.isEmpty()) 0 else routineStepsList.lastIndex)
+            binding.etAddRoutineStep.setText("")
+        }
     }
 
     // https://www.youtube.com/watch?v=H9D_HoOeKWM
@@ -71,15 +91,7 @@ class AddRoutineFragment : Fragment() {
     private fun FragmentAddRoutineBinding.setupUserActionListeners() {
         ibAddStep.setOnClickListener {
             if (etAddRoutineStep.text.isNullOrBlank()) return@setOnClickListener
-            routineStepsAdapter.routineStepsList = routineStepsList.apply {
-                add(RoutineStep(
-                    stepNumber = routineStepsList.size + 1,
-                    stepName = etAddRoutineStep.text.toString(),
-                    stepDuration = "6 mins, 50 sec"
-                ))
-            }
-            routineStepsAdapter.notifyItemInserted(if (routineStepsList.isEmpty()) 0 else routineStepsList.lastIndex)
-            binding.etAddRoutineStep.setText("")
+            AddPeriodBottomSheetFragment.newInstance().show(requireActivity().supportFragmentManager, TAG_ADD_PERIOD_MODAL_BOTTOM_SHEET)
         }
         routineStepsAdapter.setItemClickListener { it: RoutineStep ->
         }

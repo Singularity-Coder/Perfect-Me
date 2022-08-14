@@ -9,4 +9,5 @@ import javax.inject.Inject
 @HiltViewModel
 class SharedViewModel @Inject constructor() : ViewModel() {
     val menuLiveData = MutableLiveData<BottomSheetMenu>()
+    val durationLiveData = MutableLiveData<String>()
 }

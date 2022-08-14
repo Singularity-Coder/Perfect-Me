@@ -29,6 +29,7 @@ const val TABLE_ROUTINE = "table_routine"
 const val DB_ROUTINE = "db_routine"
 
 const val TAG_MENU_MODAL_BOTTOM_SHEET = "TAG_MENU_MODAL_BOTTOM_SHEET"
+const val TAG_ADD_PERIOD_MODAL_BOTTOM_SHEET = "TAG_ADD_PERIOD_MODAL_BOTTOM_SHEET"
 const val TAG_ADD_ROUTINE_FRAGMENT = "TAG_ADD_ROUTINE_FRAGMENT"
 
 fun View.showSnackBar(
@@ -219,6 +220,8 @@ fun AppCompatActivity.showScreen(
 fun Context.color(@ColorRes colorRes: Int) = ContextCompat.getColor(this, colorRes)
 
 fun Context.drawable(@DrawableRes drawableRes: Int): Drawable? = ContextCompat.getDrawable(this, drawableRes)
+
+fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 
 enum class DateType(val value: String) {
     dd_MMM_yyyy(value = "dd MMM yyyy"),
