@@ -1,4 +1,4 @@
-package com.singularitycoder.perfectme
+package com.singularitycoder.perfectme.helpers
 
 import android.app.Activity
 import android.content.Context
@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.singularitycoder.perfectme.R
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit

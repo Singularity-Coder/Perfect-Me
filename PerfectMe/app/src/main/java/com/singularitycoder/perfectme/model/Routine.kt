@@ -1,4 +1,4 @@
-package com.singularitycoder.perfectme
+package com.singularitycoder.perfectme.model
 
 data class Routine(
     val routineName: String,

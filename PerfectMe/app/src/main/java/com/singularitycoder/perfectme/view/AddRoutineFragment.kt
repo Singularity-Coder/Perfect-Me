@@ -1,6 +1,5 @@
-package com.singularitycoder.perfectme
+package com.singularitycoder.perfectme.view
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
+import com.singularitycoder.perfectme.model.RoutineStep
 import com.singularitycoder.perfectme.databinding.FragmentAddRoutineBinding
-import java.util.*
 
 class AddRoutineFragment : Fragment() {
 

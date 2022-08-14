@@ -1,4 +1,4 @@
-package com.singularitycoder.perfectme
+package com.singularitycoder.perfectme.model
 
 data class RoutineStep(
     var stepNumber: Int,

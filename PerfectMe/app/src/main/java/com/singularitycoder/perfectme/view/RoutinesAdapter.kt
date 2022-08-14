@@ -1,8 +1,9 @@
-package com.singularitycoder.perfectme
+package com.singularitycoder.perfectme.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.singularitycoder.perfectme.model.Routine
 import com.singularitycoder.perfectme.databinding.ListItemRoutineBinding
 
 class RoutinesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

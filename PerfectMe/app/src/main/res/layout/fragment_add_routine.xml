@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".AddRoutineFragment">
+    tools:context=".view.AddRoutineFragment">
 
     <!--https://stackoverflow.com/questions/34454182/round-only-top-corner-of-cardview-->
     <!--https://stackoverflow.com/questions/51178933/cardview-with-different-corner-radius/57837141#57837141-->

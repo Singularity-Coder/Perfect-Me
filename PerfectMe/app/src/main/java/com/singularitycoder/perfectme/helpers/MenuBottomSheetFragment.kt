@@ -1,4 +1,4 @@
-package com.singularitycoder.perfectme
+package com.singularitycoder.perfectme.helpers
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -11,8 +11,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.singularitycoder.perfectme.R
 import com.singularitycoder.perfectme.databinding.FragmentMenuBottomSheetBinding
 import com.singularitycoder.perfectme.databinding.ListItemBottomSheetMenuBinding
+import com.singularitycoder.perfectme.viewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.parcelize.Parcelize
 
