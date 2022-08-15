@@ -18,6 +18,8 @@ import com.singularitycoder.perfectme.model.RoutineStep
 import com.singularitycoder.perfectme.viewmodel.SharedViewModel
 import kotlin.math.ceil
 
+// TODO double back press to exit
+// TODO upload routines from csv
 class AddRoutineFragment : Fragment() {
 
     companion object {
