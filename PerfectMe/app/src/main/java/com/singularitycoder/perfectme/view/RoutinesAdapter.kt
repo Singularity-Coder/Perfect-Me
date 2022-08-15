@@ -41,6 +41,7 @@ class RoutinesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 tvRoutineName.text = routine.routineName
                 tvRoutineDuration.text = routine.routineDuration
                 tvStepCount.text = routine.stepsList.size.toString()
+                tvLastAttempt.text = routine.lastAttempt
                 cardStepsCount.setOnClickListener {
                     stepsClickListener.invoke(routine)
                 }

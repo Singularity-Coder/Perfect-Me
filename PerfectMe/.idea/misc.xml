@@ -14,6 +14,7 @@
         <entry key="app/src/main/res/layout/fragment_add_period_bottom_sheet.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_add_routine.xml" value="0.29854583740234375" />
         <entry key="app/src/main/res/layout/fragment_menu_bottom_sheet.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_routine_step.xml" value="0.1" />
         <entry key="app/src/main/res/layout/list_item_bottom_sheet_menu.xml" value="0.1" />
         <entry key="app/src/main/res/layout/list_item_routine.xml" value="0.25" />
         <entry key="app/src/main/res/layout/list_item_routine_step.xml" value="0.375" />

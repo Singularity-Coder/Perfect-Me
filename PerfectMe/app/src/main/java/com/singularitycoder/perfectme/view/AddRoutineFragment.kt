@@ -12,13 +12,11 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.singularitycoder.perfectme.databinding.FragmentAddRoutineBinding
-import com.singularitycoder.perfectme.helpers.AddPeriodBottomSheetFragment
-import com.singularitycoder.perfectme.helpers.TAG_ADD_PERIOD_MODAL_BOTTOM_SHEET
-import com.singularitycoder.perfectme.helpers.dpToPx
-import com.singularitycoder.perfectme.helpers.showSnackBar
+import com.singularitycoder.perfectme.helpers.*
 import com.singularitycoder.perfectme.model.Routine
 import com.singularitycoder.perfectme.model.RoutineStep
 import com.singularitycoder.perfectme.viewmodel.SharedViewModel
+import kotlin.math.ceil
 
 class AddRoutineFragment : Fragment() {
 
@@ -120,10 +118,46 @@ class AddRoutineFragment : Fragment() {
                 binding.root.showSnackBar("Steps are required!")
                 return@setOnClickListener
             }
+
+            /**
+             * 1 hr = 60 min
+             * 1 min = 1/60 hr
+             * */
+            var totalHours = 0
+            var totalMinutes = 0
+            var totalSeconds = 0
+            routineStepsList.forEach { routineStep: RoutineStep ->
+                totalHours += routineStep.stepDuration.substringBefore(" hrs").toIntOrNull() ?: 0
+                totalMinutes += routineStep.stepDuration.substringBefore(" min").substringAfter(", ").toIntOrNull() ?: 0
+                totalSeconds += routineStep.stepDuration.substringBefore(" sec").substringAfter("min, ").toIntOrNull() ?: 0
+            }
+            val secondsInMinutes = if (totalSeconds >= 60) {
+                val calculation = totalSeconds.toDouble() / 60.0
+                val minutesOfSeconds = calculation.toString().substringBefore(".").toInt()
+                val remainingSeconds = ("0." + calculation.toString().substringAfter(".")).toDouble() * 60
+                println("remainingSeconds: $remainingSeconds")
+                totalMinutes += minutesOfSeconds
+                totalSeconds = ceil(remainingSeconds).toInt()
+                totalSeconds
+            } else {
+                totalSeconds
+            }
+            val minutesInHours = if (totalMinutes >= 60) {
+                val calculation = totalMinutes.toDouble() / 60.0
+                val hoursOfMinutes = calculation.toString().substringBefore(".").toInt()
+                val remainingMinutes = ("0." + calculation.toString().substringAfter(".")).toDouble() * 60
+                println("remainingMinutes: $remainingMinutes")
+                totalHours += hoursOfMinutes
+                totalMinutes = ceil(remainingMinutes).toInt()
+                totalMinutes
+            } else {
+                totalMinutes
+            }
             (activity as? MainActivity)?.addRoutine(
                 Routine(
                     routineName = etRoutineName.editText?.text.toString(),
-                    routineDuration = "",
+                    routineDuration = "Duration: $totalHours hrs, $minutesInHours min, $secondsInMinutes sec",
+                    lastAttempt = "Created: ${timeNow.toIntuitiveDateTime()}",
                     stepsList = routineStepsList
                 )
             )

@@ -4,13 +4,15 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
-import android.os.Build
+import android.media.MediaPlayer
+import android.os.*
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.annotation.RawRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -200,6 +202,23 @@ fun convertTime24HrTo12Hr(date24Hr: String): String {
     }
 }
 
+fun countDown(
+    fromTimeInMillis: Long,
+    withIntervalInMillis: Long,
+    onTick: (millisUntilFinished: Long) -> Unit,
+    onFinish: () -> Unit,
+): CountDownTimer {
+    return object : CountDownTimer(fromTimeInMillis, withIntervalInMillis) {
+        override fun onTick(millisUntilFinished: Long) {
+            onTick.invoke(millisUntilFinished)
+        }
+
+        override fun onFinish() {
+            onFinish.invoke()
+        }
+    }.start()
+}
+
 fun Int.seconds(): Long = TimeUnit.SECONDS.toMillis(this.toLong())
 
 fun Int.minutes(): Long = TimeUnit.MINUTES.toMillis(this.toLong())
@@ -222,6 +241,40 @@ fun Context.color(@ColorRes colorRes: Int) = ContextCompat.getColor(this, colorR
 fun Context.drawable(@DrawableRes drawableRes: Int): Drawable? = ContextCompat.getDrawable(this, drawableRes)
 
 fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
+
+// Short haptic feedback is 5 mills
+fun Activity?.vibrate(positiveAction: Boolean) {
+    val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        val vibratorManager = this?.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+        vibratorManager.defaultVibrator
+    } else {
+        @Suppress("DEPRECATION")
+        this?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    }
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (positiveAction) {
+            vibrator.vibrate(VibrationEffect.createWaveform(longArrayOf(10L, 20L), -1))
+        } else {
+            vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
+        }
+    } else {
+        vibrator.vibrate(200)
+    }
+}
+
+fun Context?.playSound(@RawRes sound: Int) {
+    try {
+        MediaPlayer.create(this, sound).apply {
+            setOnCompletionListener { it: MediaPlayer? ->
+                it?.reset()
+                it?.release()
+            }
+            start()
+        }
+    } catch (e: Exception) {
+    }
+}
 
 enum class DateType(val value: String) {
     dd_MMM_yyyy(value = "dd MMM yyyy"),

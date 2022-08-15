@@ -10,7 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 // Pressing on steps opens steps bottom sheet
 // Pressing anywhere else will directly start the routine
-
+// 10 sec countdown before starting any step. Play sound on start
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
